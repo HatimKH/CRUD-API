@@ -5,7 +5,7 @@ from .serializers import DogSerializer, CatSerializer
 
 
 class DogList(generics.ListCreateAPIView):
-    model = Dog
+    queryset =  Dog.objects.all()
     serializer_class = DogSerializer
 
     def get_queryset(self):
@@ -13,7 +13,23 @@ class DogList(generics.ListCreateAPIView):
         return queryset
 
 class CatList(generics.ListCreateAPIView):
-    model = Cat
+    queryset =  Cat.objects.all()
+    serializer_class = CatSerializer
+
+    def get_queryset(self):
+        queryset = Cat.objects.filter(owner=self.request.user)
+        return queryset
+
+class RetrieveUpdateDestroyDog(generics.RetrieveUpdateDestroyAPIView):
+    queryset =  Dog.objects.all()
+    serializer_class = DogSerializer
+
+    def get_queryset(self):
+        queryset = Dog.objects.filter(owner=self.request.user)
+        return queryset
+
+class RetrieveUpdateDestroyCat(generics.RetrieveUpdateDestroyAPIView):
+    queryset =  Cat.objects.all()
     serializer_class = CatSerializer
 
     def get_queryset(self):
