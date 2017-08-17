@@ -5,9 +5,17 @@ from .serializers import DogSerializer, CatSerializer
 
 
 class DogList(generics.ListCreateAPIView):
-    queryset = Dog.objects.all()
+    model = Dog
     serializer_class = DogSerializer
 
+    def get_queryset(self):
+        queryset = Dog.objects.filter(owner=self.request.user)
+        return queryset
+
 class CatList(generics.ListCreateAPIView):
-    queryset = Cat.objects.all()
+    model = Cat
     serializer_class = CatSerializer
+
+    def get_queryset(self):
+        queryset = Cat.objects.filter(owner=self.request.user)
+        return queryset
